@@ -20,6 +20,10 @@
         The FINE_LOCATION permission is required for geofencing functionality to work.
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!--
+        The BACKGROUND_LOCATION permission is required for geofencing functionality to work on Q+
+    -->
     <!--
         The BACKGROUND_LOCATION permission is required for geofencing functionality to work on Q+
     -->

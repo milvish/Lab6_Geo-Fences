@@ -17,6 +17,7 @@
 package com.example.android.treasureHunt
 
 import android.content.Context
+import android.util.Log
 //import android.util.JsonReader
 import com.example.android.treasureHunt.GeofencingConstants.LANDMARK_DATA
 import com.example.android.treasureHunt.GeofencingConstants.NUM_LANDMARKS
@@ -75,6 +76,7 @@ fun getCoordinates(context: Context) {
             )
         )
     }
+    Log.d("Geofence", "Landmarks $LANDMARK_DATA")
     NUM_LANDMARKS = LANDMARK_DATA.size
 }
 
@@ -94,6 +96,8 @@ internal object GeofencingConstants {
     val GEOFENCE_EXPIRATION_IN_MILLISECONDS: Long = TimeUnit.HOURS.toMillis(1)
 
     val LANDMARK_DATA = arrayListOf<LandmarkData>()
+
+
 
 //    val temp_landmarks = arrayListOf(
 //        LandmarkDataObject(

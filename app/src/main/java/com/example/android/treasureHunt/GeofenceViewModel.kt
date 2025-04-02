@@ -16,6 +16,7 @@
 
 package com.example.android.treasureHunt
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -57,10 +58,12 @@ class GeofenceViewModel(state: SavedStateHandle) : ViewModel() {
 
     fun updateHint(currentIndex: Int) {
         _hintIndex.value = currentIndex+1
+        Log.d("Geofence", "Update ${_hintIndex.value}")
     }
 
     fun geofenceActivated() {
         _geofenceIndex.value = _hintIndex.value
+        Log.d("Geofence", "Activated")
     }
 
     fun geofenceIsActive() =_geofenceIndex.value == _hintIndex.value

@@ -62,18 +62,24 @@ class HuntMainActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
 
         geofencingClient = LocationServices.getGeofencingClient(this)
-        getCoordinates(applicationContext)
 
+
+
+        getCoordinates(applicationContext)
         createChannel(this)
 
         // Initialize the permission launcher
         requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
             if (permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true) {
+
                 checkDeviceLocationSettingsAndStartGeofence()
+
             } else {
                 showPermissionDeniedSnackbar()
             }
         }
+
+
     }
 
     override fun onStart() {
@@ -108,6 +114,7 @@ class HuntMainActivity : AppCompatActivity() {
     private fun requestForegroundAndBackgroundLocationPermissions() {
         requestPermissionLauncher.launch(arrayOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) Manifest.permission.ACCESS_BACKGROUND_LOCATION else ""
         ).filter { it.isNotEmpty() }.toTypedArray())
     }
@@ -172,6 +179,7 @@ class HuntMainActivity : AppCompatActivity() {
         }
         val currentGeofenceData = GeofencingConstants.LANDMARK_DATA[currentGeofenceIndex]
 
+
         // Build the Geofence Object
         val geofence = Geofence.Builder()
             .setRequestId(currentGeofenceData.id)
@@ -198,7 +206,7 @@ class HuntMainActivity : AppCompatActivity() {
                 if (foregroundAndBackgroundLocationPermissionApproved()) {
                     // Regardless of success/failure of the removal, add the new geofence
                     try {
-                        geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)?.run {
+                        geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent).run {
                             addOnSuccessListener {
                                 Toast.makeText(this@HuntMainActivity, R.string.geofences_added, Toast.LENGTH_SHORT).show()
                                 Log.e("Add Geofence", geofence.requestId)
@@ -228,7 +236,7 @@ class HuntMainActivity : AppCompatActivity() {
         if (!foregroundAndBackgroundLocationPermissionApproved()) {
             return
         }
-        geofencingClient.removeGeofences(geofencePendingIntent)?.run {
+        geofencingClient.removeGeofences(geofencePendingIntent).run {
             addOnSuccessListener {
                 Log.d(TAG, getString(R.string.geofences_removed))
                 Toast.makeText(applicationContext, R.string.geofences_removed, Toast.LENGTH_SHORT).show()
